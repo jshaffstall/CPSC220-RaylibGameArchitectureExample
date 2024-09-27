@@ -73,14 +73,3 @@ void Entity::tick()
 
 }
 
-void Entity::addCollision(Entity* entity)
-{
-	if (find(collisions.begin(), collisions.end(), entity) == collisions.end())
-		collisions.push_back(entity);
-}
-
-bool Entity::handleCollisions()
-{
-	collisions.clear();
-	return false;
-}
