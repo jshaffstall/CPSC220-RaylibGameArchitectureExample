@@ -19,9 +19,6 @@ private:
 	EntityFacing facing;
 	bool moving;
 
-protected:
-	vector<Entity*> collisions;
-
 public:
 	Entity(float x, float y, int width, int height, EntityType type, EntityFacing facing = Right);
 
@@ -37,9 +34,6 @@ public:
 	void setY(float y);
 	void setFacing(EntityFacing facing);
 	void setMoving(bool moving);
-
-	void addCollision(Entity* entity);
-	virtual bool handleCollisions();
 
 	virtual void tick();
 };
