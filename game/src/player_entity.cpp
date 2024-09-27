@@ -82,22 +82,3 @@ void PlayerEntity::receiveMessage(string channel, string message, void* data)
 	}
 }
 
-bool PlayerEntity::handleCollisions()
-{
-	for (Entity* entity : collisions)
-	{
-		if (entity->getType() == Obstacle)
-		{
-			// An obstacle blocks our movement.  
-			setMoving(false);
-			movementCountdown = 0;
-
-			// Move back the way we came
-			setX(getX() - speedX);
-			setY(getY() - speedY);
-		}
-	}
-
-	collisions.clear();
-	return false;
-}
