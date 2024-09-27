@@ -18,7 +18,6 @@ public:
 
 	void tick();
 	void receiveMessage(string channel, string message, void* data);
-	bool handleCollisions();
 };
 
 #endif
