@@ -16,7 +16,6 @@ private:
 public:
 	World();
 	void clearWorld();
-	void loadWorld();
 	void addEntity(int x, int y, int width, int height, EntityType type);
 	void addPlayer(int x, int y, int width, int height, EntityType type);
 
