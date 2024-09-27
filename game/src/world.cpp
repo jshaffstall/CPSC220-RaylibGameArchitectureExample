@@ -29,13 +29,6 @@ void World::clearWorld()
 	entities.clear();
 }
 
-void World::loadWorld()
-{
-	// This could be expanded to load different levels
-
-
-}
-
 void World::addEntity(int x, int y, int width, int height, EntityType type)
 {
 	Entity* entity = new Entity(x, y, width, height, type);
