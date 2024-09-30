@@ -12,6 +12,10 @@ class World
 {
 private:
 	vector<Entity*> entities;
+	vector<Entity*> collisions;
+	vector<Entity*> deletions;
+
+	void checkCollision(Entity* entity, Entity* entity2);
 
 public:
 	World();

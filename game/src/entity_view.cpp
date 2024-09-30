@@ -27,6 +27,7 @@ EntityView::EntityView(Entity *entity)
 	this->entity = entity;
 	texture = Textures::loadTexture(spriteMapping[entity->getType()].fileName);
 	frame = 0;
+	delay = 0;
 }
 
 bool EntityView::isViewFor(Entity* entity)

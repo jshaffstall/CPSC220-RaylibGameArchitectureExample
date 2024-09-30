@@ -8,6 +8,12 @@ PlayerEntity::PlayerEntity(float x, float y, int width, int height, EntityType t
 	: Entity(x, y, width, height, type)
 {
 	PubSub::subscribe("action", this);
+
+	movementCountdown = 0;
+	targetX = 0;
+	targetY = 0;
+	speedX = 0;
+	speedY = 0;
 }
 
 void PlayerEntity::tick()
@@ -82,3 +88,19 @@ void PlayerEntity::receiveMessage(string channel, string message, void* data)
 	}
 }
 
+bool PlayerEntity::handleCollisions()
+{
+	for (Entity* entity : collisions)
+	{
+		if (entity->getType() == Obstacle)
+		{
+			setMoving(false);
+			movementCountdown = 0;
+
+			setX(getX() - speedX);
+			setY(getY() - speedY);
+		}
+	}
+
+	return false;
+}

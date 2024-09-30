@@ -73,3 +73,12 @@ void Entity::tick()
 
 }
 
+void Entity::addCollision(Entity* entity)
+{
+	collisions.push_back(entity);
+}
+
+bool Entity::handleCollisions()
+{
+	return false;
+}
