@@ -80,5 +80,6 @@ void Entity::addCollision(Entity* entity)
 
 bool Entity::handleCollisions()
 {
+	collisions.clear();
 	return false;
 }

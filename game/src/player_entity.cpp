@@ -102,5 +102,6 @@ bool PlayerEntity::handleCollisions()
 		}
 	}
 
+	collisions.clear();
 	return false;
 }
