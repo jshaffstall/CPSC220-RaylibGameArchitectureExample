@@ -16,7 +16,7 @@ public:
 	EntityView(Entity *entity);
 
 	bool isViewFor(Entity* entity);
-	void draw();
+	void draw(int vx, int vy, int vdx, int vdy, int vw, int vh);
 };
 
 #endif

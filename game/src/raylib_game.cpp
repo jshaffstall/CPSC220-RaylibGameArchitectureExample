@@ -24,10 +24,17 @@ int main(void)
     return 0;
 }
 
+int viewportWidth = 320;
+int viewportHeight = 160;
+int viewportX = 160;
+int viewportY = 280;
+int viewportDrawX = 0;
+int viewportDrawY = 0;
+
 void Controller::gameLoop()
 {
-    const int screenWidth = 800;
-    const int screenHeight = 450;
+    const int screenWidth = 320;
+    const int screenHeight = 160;
 
     map<KeyboardKey, PlayerAction> keyMapping;
 
@@ -35,8 +42,10 @@ void Controller::gameLoop()
     keyMapping[KEY_A] = PlayerLeft;
     keyMapping[KEY_S] = PlayerDown;
     keyMapping[KEY_D] = PlayerRight;
+    keyMapping[KEY_SPACE] = PlayerJump;
 
     PubSub::subscribe("entity", this);
+    PubSub::subscribe("player", this);
 
     InitWindow(screenWidth, screenHeight, "Cat Moving");
     SetTargetFPS(60);
@@ -44,11 +53,17 @@ void Controller::gameLoop()
     // Load the level
 
     float x = 320;
-    float y = 320;
+    float y = 280;
     world.addPlayer(x, y, 32, 32, Cat);
 
     x = 160;
     world.addEntity(x, y, 32, 32, Obstacle);
+    y += 32;
+    world.addEntity(x, y, 32, 32, Obstacle);
+
+    y = 352;
+    for (x=160; x <= 640; x += 32)
+        world.addEntity(x, y, 32, 32, Obstacle);
 
     // Go into the main loop
     while (!WindowShouldClose())
@@ -72,7 +87,7 @@ void Controller::gameLoop()
 
         // Draw the views
         for (EntityView *view : views)
-            view->draw();
+            view->draw(viewportX, viewportY, viewportDrawX, viewportDrawY, viewportWidth, viewportHeight);
 
         EndDrawing();
     }
@@ -106,5 +121,11 @@ void Controller::receiveMessage(string channel, string message, void* data)
                 break;
             }
         }
+    }
+
+    if (channel == "player" && message == "location")
+    {
+        Vector2* position = (Vector2*)data;
+        viewportX = position->x - viewportWidth / 2;
     }
 }

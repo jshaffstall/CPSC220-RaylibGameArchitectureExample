@@ -35,8 +35,9 @@ bool EntityView::isViewFor(Entity* entity)
 	return this->entity == entity;
 }
 
-void EntityView::draw()
+void EntityView::draw(int vx, int vy, int vdx, int vdy, int vw, int vh)
 {
+
 	int animationDelay = 20;
 	int numFrames = spriteMapping[entity->getType()].numFrames;
 
@@ -60,5 +61,9 @@ void EntityView::draw()
 	int frameWidth = texture.width / numFrames;
 	int row = spriteMapping[entity->getType()].facings[entity->getFacing()];
 	Rectangle frameRec = { frame * frameWidth, row * frameWidth, frameWidth, frameWidth };
-	DrawTextureRec(texture, frameRec, { entity->getX(), entity->getY()}, WHITE);
+
+	float x = (entity->getX() - vx) + vdx;
+	float y = (entity->getY() - vy) + vdy;
+
+	DrawTextureRec(texture, frameRec, { x, y}, WHITE);
 }

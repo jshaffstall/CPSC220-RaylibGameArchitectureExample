@@ -20,7 +20,7 @@ void World::tick()
 	collisions.clear();
 	for (Entity* entity : entities)
 	{
-		if (entity->getMoving())
+		if (entity->getMoving() || entity->getFalling())
 		{
 			for (Entity* entity2 : entities)
 			{

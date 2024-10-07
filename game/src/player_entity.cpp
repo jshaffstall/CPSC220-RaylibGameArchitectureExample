@@ -1,4 +1,5 @@
 #include <iostream>
+#include "raylib.h"
 #include "player_entity.h"
 #include "world.h"
 
@@ -26,14 +27,20 @@ void PlayerEntity::tick()
 		{
 			setMoving(false);
 			setX(targetX);
-			setY(targetY);
 		}
 		else
 		{
 			setX(getX() + speedX);
-			setY(getY() + speedY);
 		}
 	}
+
+	speedY += 0.5;
+
+	setY(getY() + speedY);
+	setFalling(true);
+
+	Vector2 position = { getX(), getY() };
+	PubSub::publish("player", "location", &position);
 }
 
 void PlayerEntity::receiveMessage(string channel, string message, void* data)
@@ -47,7 +54,6 @@ void PlayerEntity::receiveMessage(string channel, string message, void* data)
 			targetX = getX() + 32;
 			targetY = getY();
 			speedX = 32.0 / 60.0;
-			speedY = 0;
 			setMoving(true);
 			setFacing(Right);
 			movementCountdown = 60;
@@ -58,33 +64,16 @@ void PlayerEntity::receiveMessage(string channel, string message, void* data)
 			targetX = getX() - 32;
 			targetY = getY();
 			speedX = -32.0 / 60.0;
-			speedY = 0;
 			setMoving(true);
 			setFacing(Left);
 			movementCountdown = 60;
 		}
 
-		if (*action == PlayerUp)
+		if (*action == PlayerJump)
 		{
-			targetX = getX();
-			targetY = getY() - 32;
-			speedX = 0;
-			speedY = -32.0 / 60.0;
-			setMoving(true);
-			setFacing(Up);
-			movementCountdown = 60;
+			speedY = -5;
 		}
 
-		if (*action == PlayerDown)
-		{
-			targetX = getX();
-			targetY = getY() + 32;
-			speedX = 0;
-			speedY = 32.0 / 60.0;
-			setMoving(true);
-			setFacing(Down);
-			movementCountdown = 60;
-		}
 	}
 }
 
@@ -94,11 +83,25 @@ bool PlayerEntity::handleCollisions()
 	{
 		if (entity->getType() == Obstacle)
 		{
-			setMoving(false);
-			movementCountdown = 0;
+			int xDistance = abs(getX() - entity->getX());
+			int yDistance = abs(getY() - entity->getY());
 
-			setX(getX() - speedX);
-			setY(getY() - speedY);
+			if (xDistance > yDistance)
+			{
+				setMoving(false);
+				movementCountdown = 0;
+
+				setX(getX() - speedX);
+			}
+			else
+			{
+				if (getFalling())
+				{
+					setFalling(false);
+					setY(getY() - speedY);
+					speedY = 0;
+				}
+			}
 		}
 	}
 

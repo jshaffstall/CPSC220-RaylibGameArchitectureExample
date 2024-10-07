@@ -18,6 +18,7 @@ private:
 	EntityType type;
 	EntityFacing facing;
 	bool moving;
+	bool falling;
 
 protected:
 	vector<Entity*> collisions;
@@ -32,11 +33,13 @@ public:
 	EntityType getType();
 	EntityFacing getFacing();
 	bool getMoving();
+	bool getFalling();
 
 	void setX(float x);
 	void setY(float y);
 	void setFacing(EntityFacing facing);
 	void setMoving(bool moving);
+	void setFalling(bool falling);
 
 	virtual void tick();
 

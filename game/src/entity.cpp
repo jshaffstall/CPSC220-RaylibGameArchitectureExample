@@ -63,9 +63,19 @@ bool Entity::getMoving()
 	return moving;
 }
 
+bool Entity::getFalling()
+{
+	return falling;
+}
+
 void Entity::setMoving(bool moving)
 {
 	this->moving = moving;
+}
+
+void Entity::setFalling(bool falling)
+{
+	this->falling = falling;
 }
 
 void Entity::tick()
